@@ -10,10 +10,24 @@ require 'csv'
 # send password in the command line; assumes first argument. need begin/rescue
 github = Github.new :basic_auth => 'since1968:' + ARGV.first
 
-# output to file
-CSV.open("commits.csv", "a+")
+commits = github.repos.commits.all "Intridea", "Surfiki", per_page: 100
+# puts commits
+puts commits.length
+puts "Author_______________"
+puts "author: " + commits[1].commit.author.name
+puts "email: " + commits[1].commit.author.email
+puts "date: " + commits[1].commit.author.date
+
+puts commits.links.last
+
+=begin
+while commits.has_next_page?
+  puts "has another page"
+end
+=end
 
 
+=begin
 # load list of repos from text file
 repos = CSV.foreach('repos.csv', :headers => true) do |row|
   puts row
@@ -23,7 +37,7 @@ repos = CSV.foreach('repos.csv', :headers => true) do |row|
   
   puts '-----------------------------------------'
 end
-
+=end
   
 
 
