@@ -7,22 +7,25 @@ require 'csv'
 2. loop through repos and list commits. might need to paginate?
 =end
 
-#file = File.new("list.csv", "a+")
+# send password in the command line; assumes first argument. need begin/rescue
+github = Github.new :basic_auth => 'since1968:' + ARGV.first
 
-github = Github.new :basic_auth => 'since1968:okinawa1968'
+# output to file
+CSV.open("commits.csv", "a+")
 
 
 # load list of repos from text file
 repos = CSV.foreach('repos.csv', :headers => true) do |row|
-  puts row
+#  puts row
   commits = github.repos.commits.all row[0], row[1], per_page: 5000
-  puts commits
+#  puts commits
 #  file.each { |row| print "{commits}") }
   
   puts '-----------------------------------------'
 end
 
-file.close
+  
+
 
 
 =begin
